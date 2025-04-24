@@ -5,9 +5,12 @@ export default function DashboardPage() {
   const navigate = useNavigate();
   async function onButtonClick() {
     try {
-      const { data } = await axios.get("http://localhost:3000/userData", {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        "https://movies-backend-4bx3.onrender.com/userData",
+        {
+          withCredentials: true,
+        }
+      );
       console.log(data);
     } catch (error) {
       if (error instanceof AxiosError) {

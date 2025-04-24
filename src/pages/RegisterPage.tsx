@@ -45,7 +45,10 @@ export default function RegisterPage() {
     }
 
     try {
-      await axios.post("http://127.0.0.1:3000/users", newUser);
+      await axios.post(
+        "https://movies-backend-4bx3.onrender.com/users",
+        newUser
+      );
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {

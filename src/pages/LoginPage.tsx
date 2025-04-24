@@ -26,7 +26,7 @@ export default function LoginPage() {
         email,
         password,
       };
-      await axios.post("http://localhost:3000/login", body, {
+      await axios.post("https://movies-backend-4bx3.onrender.com/login", body, {
         withCredentials: true,
       });
       navigate("..");

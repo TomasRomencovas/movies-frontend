@@ -13,7 +13,9 @@ export default function ProtectedRoute({ children }: ProtectedProps) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/validateToken", { withCredentials: true })
+      .get("https://movies-backend-4bx3.onrender.com/validateToken", {
+        withCredentials: true,
+      })
       .then(() => {
         setIsAuthenticated(true);
       })

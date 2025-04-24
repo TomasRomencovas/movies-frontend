@@ -7,8 +7,8 @@ export default function AddCommentPage() {
   const { movieId } = useParams();
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState("");
-  const [finalStarRating, setFinalStarRating] = useState(0)
-  const [starRating, setStarRating] = useState(0)
+  const [finalStarRating, setFinalStarRating] = useState(0);
+  const [starRating, setStarRating] = useState(0);
 
   const navigate = useNavigate();
 
@@ -17,15 +17,15 @@ export default function AddCommentPage() {
 
     try {
       const { data: userEmail } = await axios.get(
-        "http://localhost:3000/userEmail",
+        "https://movies-backend-4bx3.onrender.com/userEmail",
         {
           withCredentials: true,
         }
       );
 
-      if(finalStarRating === 0) {
-        setCommentError("Click on the stars to rate the move from 1 to 5")
-        return
+      if (finalStarRating === 0) {
+        setCommentError("Click on the stars to rate the move from 1 to 5");
+        return;
       }
 
       if (userEmail) {
@@ -36,7 +36,7 @@ export default function AddCommentPage() {
         };
 
         await axios.post(
-          `http://127.0.0.1:3000/comments/${movieId}/new`,
+          `https://movies-backend-4bx3.onrender.com/comments/${movieId}/new`,
           newComment
         );
         navigate(`/movie/${movieId}`);
@@ -48,52 +48,69 @@ export default function AddCommentPage() {
     }
   }
 
-
-
   return (
     <form onSubmit={(e) => addNewComment(e)}>
       <h2>Movie Review</h2>
-      <i 
-      onMouseLeave={() => {
-        setStarRating(0)
-      }}
-      onMouseEnter={() => {
-        setStarRating(1)
-      }} 
-      onClick={() => setFinalStarRating(1)}
-      className={`fa-solid fa-star ${starRating >= 1 && "gold" || finalStarRating >= 1 && "gold"}`}></i>
-      <i onMouseLeave={() => {
-        setStarRating(0)
-      }}
-      onMouseEnter={() => {
-        setStarRating(2)
-      }} 
-      onClick={() => setFinalStarRating(2)}
-      className={`fa-solid fa-star ${starRating >= 2 && "gold" || finalStarRating >= 2 && "gold"}`}></i>
-      <i onMouseLeave={() => {
-        setStarRating(0)
-      }}
-      onMouseEnter={() => {
-        setStarRating(3)
-      }} 
-      onClick={() => setFinalStarRating(3)}
-      className={`fa-solid fa-star ${starRating >= 3 && "gold" || finalStarRating >= 3 && "gold"}`}></i>
-      <i onMouseLeave={() => {
-        setStarRating(0)
-      }}
-      onMouseEnter={() => {
-        setStarRating(4)
-      }} 
-      onClick={() => setFinalStarRating(4)}
-      className={`fa-solid fa-star ${starRating >= 4 && "gold" || finalStarRating >= 4 && "gold"}`}></i>
-      <i onMouseLeave={() => {
-        setStarRating(0)
-      }}
-      onMouseEnter={() => {
-        setStarRating(5)
-      }} 
-      onClick={() => setFinalStarRating(5)}
-      className={`fa-solid fa-star ${starRating >= 5 && "gold" || finalStarRating >= 5 && "gold"}`}></i>
+      <i
+        onMouseLeave={() => {
+          setStarRating(0);
+        }}
+        onMouseEnter={() => {
+          setStarRating(1);
+        }}
+        onClick={() => setFinalStarRating(1)}
+        className={`fa-solid fa-star ${
+          (starRating >= 1 && "gold") || (finalStarRating >= 1 && "gold")
+        }`}
+      ></i>
+      <i
+        onMouseLeave={() => {
+          setStarRating(0);
+        }}
+        onMouseEnter={() => {
+          setStarRating(2);
+        }}
+        onClick={() => setFinalStarRating(2)}
+        className={`fa-solid fa-star ${
+          (starRating >= 2 && "gold") || (finalStarRating >= 2 && "gold")
+        }`}
+      ></i>
+      <i
+        onMouseLeave={() => {
+          setStarRating(0);
+        }}
+        onMouseEnter={() => {
+          setStarRating(3);
+        }}
+        onClick={() => setFinalStarRating(3)}
+        className={`fa-solid fa-star ${
+          (starRating >= 3 && "gold") || (finalStarRating >= 3 && "gold")
+        }`}
+      ></i>
+      <i
+        onMouseLeave={() => {
+          setStarRating(0);
+        }}
+        onMouseEnter={() => {
+          setStarRating(4);
+        }}
+        onClick={() => setFinalStarRating(4)}
+        className={`fa-solid fa-star ${
+          (starRating >= 4 && "gold") || (finalStarRating >= 4 && "gold")
+        }`}
+      ></i>
+      <i
+        onMouseLeave={() => {
+          setStarRating(0);
+        }}
+        onMouseEnter={() => {
+          setStarRating(5);
+        }}
+        onClick={() => setFinalStarRating(5)}
+        className={`fa-solid fa-star ${
+          (starRating >= 5 && "gold") || (finalStarRating >= 5 && "gold")
+        }`}
+      ></i>
       <br />
       <input
         type="text"

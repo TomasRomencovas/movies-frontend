@@ -12,7 +12,7 @@ export type CommentType = {
   time: string;
   comment: string;
   likes: string[];
-}
+};
 
 export default function MoviePage() {
   const { movieId } = useParams();
@@ -21,20 +21,26 @@ export default function MoviePage() {
   const { isAuthenticated, setIsAuthenticated } = useAuthContext();
   const [userEmail, setUserEmail] = useState("");
   const [hasComment, setHasComment] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0)
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get("http://localhost:3000/validateToken", {
-          withCredentials: true,
-        });
+        await axios.get(
+          "https://movies-backend-4bx3.onrender.com/validateToken",
+          {
+            withCredentials: true,
+          }
+        );
 
         setIsAuthenticated(true);
 
-        const { data } = await axios.get("http://localhost:3000/userEmail", {
-          withCredentials: true,
-        });
+        const { data } = await axios.get(
+          "https://movies-backend-4bx3.onrender.com/userEmail",
+          {
+            withCredentials: true,
+          }
+        );
 
         setUserEmail(data);
       } catch {
@@ -49,11 +55,11 @@ export default function MoviePage() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:3000/movie/${movieId}`)
+      .get(`https://movies-backend-4bx3.onrender.com/movie/${movieId}`)
       .then((response) => setMovie(response.data));
 
     axios
-      .get(`http://127.0.0.1:3000/comments/${movieId}`)
+      .get(`https://movies-backend-4bx3.onrender.com/comments/${movieId}`)
       .then((response) => setComments(response.data));
   }, [movieId, refreshKey]);
 
@@ -66,27 +72,39 @@ export default function MoviePage() {
     }
   }, [comments, userEmail]);
 
-
   function deleteComment(commentId: number) {
-    axios.delete(`http://127.0.0.1:3000/comments/${movieId}/${commentId}`).then(() => setRefreshKey((prev) => prev + 1))
+    axios
+      .delete(
+        `https://movies-backend-4bx3.onrender.com/comments/${movieId}/${commentId}`
+      )
+      .then(() => setRefreshKey((prev) => prev + 1));
   }
 
   function onLogout() {
     axios
-    .post("http://localhost:3000/logout", {}, { withCredentials: true })
-    .then(() => {setIsAuthenticated(false)
-      setUserEmail("")
-    });
- }
+      .post(
+        "https://movies-backend-4bx3.onrender.com/logout",
+        {},
+        { withCredentials: true }
+      )
+      .then(() => {
+        setIsAuthenticated(false);
+        setUserEmail("");
+      });
+  }
 
   function addLike(commentId: number) {
     const body = {
       userEmail: userEmail,
-    }
-    
-   axios.put(`http://localhost:3000/comments/like/${commentId}`, body).then(() => setRefreshKey((prev) => prev + 1))
-  }
+    };
 
+    axios
+      .put(
+        `https://movies-backend-4bx3.onrender.com/comments/like/${commentId}`,
+        body
+      )
+      .then(() => setRefreshKey((prev) => prev + 1));
+  }
 
   return (
     <div>
@@ -94,8 +112,10 @@ export default function MoviePage() {
       <h3>
         {movie?.rating
           ? "Score: " +
-            (movie.rating.reduce((acc, cur) => acc + cur, 0) /
-              movie.rating.length).toFixed(1) +
+            (
+              movie.rating.reduce((acc, cur) => acc + cur, 0) /
+              movie.rating.length
+            ).toFixed(1) +
             "/5"
           : "Not Rated"}
       </h3>
@@ -118,16 +138,18 @@ export default function MoviePage() {
       {comments.map((comment) =>
         comment.useremail === userEmail ? (
           <div key={comment.id}>
-
             <h4>User: {comment.useremail}</h4>
             <h4>Rated: {comment.rating}/5</h4>
             <p>
               {comment.comment ? "Comment: " + comment.comment : "No comment."}
             </p>
             <p>{new Date(comment.time).toLocaleString()}</p>
-            <button onClick={() => navigate(`/comment/${movieId}/${comment.id}`)}>Edit</button>
-          <button onClick={() => deleteComment(comment.id)}>Delete</button>
-              
+            <button
+              onClick={() => navigate(`/comment/${movieId}/${comment.id}`)}
+            >
+              Edit
+            </button>
+            <button onClick={() => deleteComment(comment.id)}>Delete</button>
           </div>
         ) : (
           <div key={comment.id}>
@@ -137,7 +159,12 @@ export default function MoviePage() {
               {comment.comment ? "Comment: " + comment.comment : "No comment."}
             </p>
             <p>{new Date(comment.time).toLocaleString()}</p>
-            <i onClick={() => addLike(comment.id)} className={`fa-solid fa-heart ${comment.likes.includes(userEmail) && "red"}`}></i>
+            <i
+              onClick={() => addLike(comment.id)}
+              className={`fa-solid fa-heart ${
+                comment.likes.includes(userEmail) && "red"
+              }`}
+            ></i>
             <span> {comment.likes.length}</span>
           </div>
         )
