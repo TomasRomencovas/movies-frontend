@@ -11,7 +11,7 @@ type AuthContext = {
 
 const AuthContext = createContext<AuthContext>({
   isAuthenticated: false,
-  setIsAuthenticated: (value: boolean) => {},
+  setIsAuthenticated: () => {},
 });
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
